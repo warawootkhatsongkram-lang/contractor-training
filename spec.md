@@ -53,7 +53,8 @@
 - ขึ้น GitHub แล้ว (2026-10-07): repo public https://github.com/warawootkhatsongkram-lang/contractor-training · GitHub Pages https://warawootkhatsongkram-lang.github.io/contractor-training/ · QR บน qr.html ถอดรหัสได้ URL จริง · test suite บนเว็บจริง 32/32 · commit ด้วยอีเมล noreply (ตั้งเฉพาะ repo) · `_backup/` `_devloop/` ไม่ขึ้น repo
 
 ## กำลังทำ + ค้าง
-- รอเดย์ติดตั้ง GAS ตาม `gas/วิธีติดตั้ง-GAS.md` แล้วใส่ URL ใน `GAS_URL` ของ index.html (ยังไม่ได้ทดสอบกับ GAS จริง)
+- ต่อ GAS แล้ว (2026-10-07): `GAS_URL` = .../AKfycbz8iKi7...nNaqE5VnHbpTQd_36lJyCpZmnB/exec · ทดสอบจากเว็บจริงผ่าน Chrome: ลงชื่อ → Flow Chart → ยืนยัน → "ส่งผลเข้าระบบเรียบร้อยแล้ว" คิว 0 · ส่งรหัสเดิมซ้ำได้ duplicate:true (แถวอยู่ใน Sheet จริง) · ไม่ต้อง deploy ใหม่
+- ค้าง: แถวทดสอบ 2 แถวใน Sheet (TR-261007-TESTA, TR-261007-U6NEG ชื่อ "ทดสอบระบบ (ลบได้)") รอเดย์ลบเอง
 
 ## การตัดสินใจสำคัญ (อะไร + เพราะอะไร)
 - แสดงสไลด์เป็นรูป WebP ทีละหน้า ไม่เปิด PDF ตรง — Android เปิด PDF ในเบราว์เซอร์ไม่ได้ และข้อความไทยใน PDF ดึงเป็น text ไม่ได้ (ฟอนต์ฝังไม่มี unicode map) [เดย์เลือก 2026-10-07]
@@ -73,6 +74,6 @@
 
 ## step ถัดไป
 1. เดย์เปิด https://warawootkhatsongkram-lang.github.io/contractor-training/qr.html → พิมพ์โปสเตอร์ A4 → สแกนด้วยมือถือจริง (ทดสอบปัดหน้า / เต็มจอ / ตัวนับ 5 วิ บน Safari, Chrome, LINE)
-2. เดย์ติดตั้ง GAS ตาม `gas/วิธีติดตั้ง-GAS.md` → ส่ง URL /exec ให้ Claude ใส่ `GAS_URL` → push → ทดสอบส่งผลจริง 1 รายการ แล้วดูแถวใน Sheet
+2. เดย์ลบแถวทดสอบ 2 แถวใน Sheet ชื่อ "ทดสอบระบบ (ลบได้)"
 3. แก้ไฟล์แล้ว push ใหม่: `git add -A && git commit -m "..." && git push` (Pages อัปเดตเองภายใน ~1 นาที)
 - หมายเหตุ: localStorage ของ *.github.io ใช้ร่วมกับระบบอื่นของเดย์ในบัญชีเดียวกัน (fireguard, hamer_waste) — ระบบนี้ใช้ key `hamer_training_v1` ไม่ชนกัน
