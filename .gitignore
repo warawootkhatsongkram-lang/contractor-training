@@ -1,0 +1,15 @@
+# ไฟล์ทำงานส่วนตัว — ไม่ขึ้น repo public
+CLAUDE.md
+MEMORY.md
+README-อ่านก่อนเริ่ม.md
+.claude/
+design-system/
+_backup/
+_devloop/
+
+# ไฟล์ระบบ / Python
+__pycache__/
+*.pyc
+Thumbs.db
+desktop.ini
+.DS_Store

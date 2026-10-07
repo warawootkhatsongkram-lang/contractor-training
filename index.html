@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0B1220">
+<title>ระบบอบรมความปลอดภัยผู้รับเหมา | HAMER</title>
+<link rel="icon" href="assets/safety-first.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@500;600;700&family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ===== variables ===== */
+:root{
+  --bg:#0B1220; --bg-2:#0F1B2D;
+  --surface:rgba(15,23,42,.86); --surface-solid:#111C2E; --surface-2:rgba(30,41,59,.9);
+  --line:rgba(148,163,184,.18); --line-strong:rgba(148,163,184,.32);
+  --text:#F1F5F9; --text-2:#CBD5E1; --muted:#94A3B8;
+  --orange:#EA580C; --orange-hi:#F97316; --on-orange:#111827;
+  --yellow:#FACC15; --green:#16A34A; --green-hi:#22C55E; --red:#DC2626; --cyan:#22D3EE;
+  --radius:16px; --radius-sm:10px;
+  --shadow:0 10px 30px rgba(0,0,0,.35);
+  --font-head:'Prompt',system-ui,sans-serif; --font-body:'Sarabun',system-ui,sans-serif;
+  --safe-b:env(safe-area-inset-bottom,0px);
+}
+/* ===== base ===== */
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
+h1,h2,h3{font-family:var(--font-head);line-height:1.3;margin:0}
+button,input,select{font:inherit}
+button{cursor:pointer}
+a{color:var(--orange-hi)}
+:focus-visible{outline:3px solid var(--yellow);outline-offset:2px}
+img{max-width:100%}
+[hidden]{display:none!important}
+/* ===== layout ===== */
+.bg{position:fixed;inset:0;z-index:-1;overflow:hidden;background:linear-gradient(180deg,#0B1220 0%,#0F1B2D 55%,#122036 100%)}
+.bg svg{position:absolute;inset:0;width:100%;height:100%}
+.bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,18,32,.15) 0%,rgba(11,18,32,.55) 60%,rgba(11,18,32,.85) 100%)}
+.hazard{height:8px;background:repeating-linear-gradient(-45deg,var(--yellow) 0 14px,#111827 14px 28px)}
+.wrap{max-width:720px;margin:0 auto;padding:16px 16px calc(32px + var(--safe-b))}
+.view[hidden]{display:none!important}
+/* ===== components ===== */
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;max-width:720px;margin:0 auto}
+.brand{display:flex;align-items:center;gap:10px;background:#fff;border-radius:12px;padding:6px 10px;box-shadow:var(--shadow)}
+.brand img{height:34px;width:auto;display:block}
+.brand .sep{width:1px;height:28px;background:#E2E8F0}
+.dept{font-size:16px;color:var(--text-2);text-align:right;line-height:1.35}
+.dept b{display:block;color:var(--text);font-family:var(--font-head);font-weight:600;font-size:16px}
+
+.hero{padding:18px 0 8px}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-head);font-size:13px;font-weight:600;letter-spacing:.04em;color:var(--yellow);background:rgba(250,204,21,.1);border:1px solid rgba(250,204,21,.35);border-radius:999px;padding:4px 12px}
+.hero h1{font-size:clamp(28px,7.4vw,40px);font-weight:700;margin:12px 0 6px}
+.hero h1 span{color:var(--orange-hi)}
+.hero p{margin:0;color:var(--text-2)}
+
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.card + .card{margin-top:16px}
+.card h2{font-size:20px;font-weight:600;margin-bottom:4px}
+.card .sub{color:var(--muted);font-size:16px;margin:0 0 16px}
+
+.steps{display:flex;gap:8px;margin:18px 0}
+.step{flex:1;display:flex;align-items:center;gap:8px;font-size:16px;line-height:1.3;color:var(--muted);background:rgba(15,23,42,.6);border:1px solid var(--line);border-radius:12px;padding:8px}
+.step i{flex:none;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-weight:700;font-family:var(--font-head);font-size:13px;background:var(--surface-2);color:var(--text-2)}
+.step.on{color:var(--text);border-color:rgba(234,88,12,.6)}
+.step.on i{background:var(--orange);color:var(--on-orange)}
+.step.ok i{background:var(--green);color:#fff}
+
+.field{margin-bottom:14px}
+.field label{display:block;font-weight:600;margin-bottom:6px;font-size:16px}
+.field label em{color:var(--orange-hi);font-style:normal}
+.field input{width:100%;min-height:50px;padding:12px 14px;border-radius:var(--radius-sm);border:1.5px solid var(--line-strong);background:rgba(2,6,23,.55);color:var(--text);font-size:17px;transition:border-color .2s}
+.field input::placeholder{color:#64748B}
+.field input:focus{outline:none;border-color:var(--orange-hi);box-shadow:0 0 0 3px rgba(249,115,22,.25)}
+.field.bad input{border-color:#F87171}
+.field .hint{font-size:16px;color:var(--muted);margin-top:4px}
+.field .err{font-size:16px;color:#FCA5A5;margin-top:4px;display:none}
+.field.bad .err{display:block}
+.consent{display:flex;gap:12px;align-items:flex-start;padding:12px;border-radius:var(--radius-sm);background:rgba(2,6,23,.45);border:1px solid var(--line);font-size:16px;color:var(--text-2);cursor:pointer}
+.consent input{width:24px;height:24px;flex:none;margin:2px 0 0;accent-color:var(--orange)}
+.consent.bad{border-color:#F87171}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:12px 20px;border-radius:12px;border:0;font-family:var(--font-head);font-weight:600;font-size:17px;transition:transform .15s,background-color .2s,opacity .2s;text-decoration:none}
+.btn:active{transform:scale(.98)}
+.btn svg{width:22px;height:22px;flex:none}
+.btn-primary{background:var(--orange);color:var(--on-orange)}
+.btn-primary:hover{background:var(--orange-hi)}
+.btn-success{background:var(--green);color:#fff}
+.btn-success:hover{background:var(--green-hi)}
+.btn-ghost{background:rgba(148,163,184,.12);color:var(--text);border:1px solid var(--line)}
+.btn-ghost:hover{background:rgba(148,163,184,.2)}
+.btn[disabled]{opacity:.45;cursor:not-allowed;transform:none}
+.btn-block{width:100%}
+.link-btn{background:none;border:0;color:var(--orange-hi);font-weight:600;padding:8px 4px;min-height:44px;text-decoration:underline;text-underline-offset:3px}
+
+.who{display:flex;align-items:center;gap:14px}
+.avatar{flex:none;width:48px;height:48px;border-radius:50%;display:grid;place-items:center;background:rgba(234,88,12,.15);border:1.5px solid rgba(234,88,12,.5);color:var(--orange-hi)}
+.avatar svg{width:26px;height:26px}
+.who .name{font-family:var(--font-head);font-weight:600;font-size:18px;line-height:1.3}
+.who .co{color:var(--muted);font-size:16px}
+.who .grow{flex:1;min-width:0}
+.who .name,.who .co{overflow-wrap:anywhere}
+
+.section-title{display:flex;align-items:center;gap:10px;margin:26px 0 12px;font-family:var(--font-head);font-weight:600;font-size:18px}
+.section-title::before{content:"";width:6px;height:22px;border-radius:3px;background:var(--orange)}
+.section-title small{font-family:var(--font-body);font-weight:400;color:var(--muted);font-size:16px;margin-left:auto}
+
+.course-list{display:grid;gap:12px}
+@media (min-width:640px){.course-list{grid-template-columns:1fr 1fr}}
+.course{position:relative;display:flex;gap:14px;align-items:center;width:100%;text-align:left;padding:16px;border-radius:var(--radius);border:1px solid var(--line);background:var(--surface);color:var(--text);box-shadow:var(--shadow);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);transition:border-color .2s,transform .15s}
+.course:hover{border-color:rgba(249,115,22,.6)}
+.course:active{transform:scale(.99)}
+.course .ic{flex:none;width:56px;height:56px;border-radius:14px;display:grid;place-items:center;color:#111827}
+.course .ic svg{width:30px;height:30px}
+.course .body{flex:1;min-width:0}
+.course .t{font-family:var(--font-head);font-weight:600;font-size:17px;line-height:1.35}
+.course .m{font-size:16px;color:var(--muted);margin-top:2px}
+.course .chev{flex:none;color:var(--muted)}
+.course .chev svg{width:22px;height:22px}
+.badge{display:inline-flex;align-items:center;gap:6px;margin-top:8px;font-size:16px;font-weight:600;border-radius:999px;padding:3px 10px}
+.badge svg{width:15px;height:15px}
+.badge.done{background:rgba(22,163,74,.16);color:#86EFAC;border:1px solid rgba(34,197,94,.4)}
+.badge.doing{background:rgba(250,204,21,.12);color:#FDE68A;border:1px solid rgba(250,204,21,.35)}
+.badge.new{background:rgba(148,163,184,.12);color:var(--text-2);border:1px solid var(--line)}
+.bar{height:6px;border-radius:3px;background:rgba(148,163,184,.2);overflow:hidden;margin-top:8px}
+.bar > span{display:block;height:100%;background:linear-gradient(90deg,var(--orange),var(--yellow));transform-origin:left;transition:transform .3s}
+
+.sync{display:flex;align-items:center;gap:10px;margin-top:16px;padding:12px 14px;border-radius:12px;font-size:16px;border:1px solid var(--line);background:rgba(15,23,42,.7)}
+.sync svg{width:20px;height:20px;flex:none}
+.sync.warn{border-color:rgba(250,204,21,.45);color:#FDE68A}
+.sync.err{border-color:rgba(248,113,113,.5);color:#FCA5A5}
+.sync.ok{border-color:rgba(34,197,94,.45);color:#86EFAC}
+.sync .grow{flex:1}
+.sync button{min-height:44px;padding:6px 12px;font-size:16px}
+
+.footer{margin-top:28px;text-align:center;font-size:16px;color:var(--muted)}
+
+/* ===== reader ===== */
+.reader{position:fixed;inset:0;display:flex;flex-direction:column;background:#070C16;z-index:5}
+.r-top{display:flex;align-items:center;gap:8px;padding:8px 10px;background:#0B1220;border-bottom:1px solid var(--line)}
+.r-top .title{flex:1;min-width:0;font-family:var(--font-head);font-weight:600;font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.icon-btn{flex:none;width:48px;height:48px;border-radius:12px;border:1px solid var(--line);background:rgba(148,163,184,.1);color:var(--text);display:grid;place-items:center}
+.icon-btn svg{width:24px;height:24px}
+.icon-btn[aria-pressed="true"]{background:var(--orange);color:var(--on-orange);border-color:var(--orange)}
+.r-progress{height:5px;background:rgba(148,163,184,.18)}
+.r-progress span{display:block;height:100%;background:linear-gradient(90deg,var(--orange),var(--yellow));transform-origin:left;transition:transform .25s}
+.stage{position:relative;flex:1;min-height:0;display:flex;align-items:center;justify-content:center;overflow:hidden;touch-action:pan-y pinch-zoom}
+.stage img{max-width:100%;max-height:100%;object-fit:contain;display:block;user-select:none;-webkit-user-drag:none;transition:opacity .2s}
+.stage.loading img{opacity:.25}
+.stage.zoom{display:block;overflow:auto;touch-action:auto}
+.stage.zoom img{max-width:none;max-height:none;width:220%}
+.stage.zoom.portrait img{width:180%}
+.spinner{position:absolute;width:44px;height:44px;border-radius:50%;border:4px solid rgba(148,163,184,.25);border-top-color:var(--orange);animation:spin .8s linear infinite;display:none}
+.stage.loading .spinner{display:block}
+@keyframes spin{to{transform:rotate(360deg)}}
+.rotate-hint{display:none;align-items:center;justify-content:center;gap:8px;font-size:16px;color:var(--muted);padding:6px 10px;text-align:center}
+.rotate-hint svg{width:18px;height:18px;flex:none}
+@media (orientation:portrait) and (max-width:700px){.rotate-hint.show{display:flex}}
+.r-bottom{padding:10px 12px calc(10px + var(--safe-b));background:#0B1220;border-top:1px solid var(--line)}
+.r-nav{display:flex;align-items:center;gap:10px}
+.r-nav .btn{flex:1;padding:10px 12px}
+.pageno{flex:none;min-width:86px;text-align:center;font-family:var(--font-head);font-weight:600;font-size:16px}
+.pageno small{display:block;font-family:var(--font-body);font-weight:400;font-size:16px;color:var(--muted)}
+.r-confirm{margin-top:10px}
+.r-confirm .note{font-size:16px;color:var(--muted);text-align:center;margin-bottom:8px}
+.stage.failed img{visibility:hidden}
+.retry{position:absolute;display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;color:var(--text-2);padding:16px}
+.full-btn{flex:none;display:inline-flex;align-items:center;gap:6px;min-height:48px;padding:0 12px;border-radius:12px;border:1px solid rgba(249,115,22,.6);background:rgba(234,88,12,.15);color:var(--text);font-family:var(--font-head);font-weight:600;font-size:16px}
+.full-btn svg{width:22px;height:22px}
+/* โหมดอ่านเต็มจอ — จอแนวตั้ง + สไลด์แนวนอน → หมุนกล่องทั้งกล่อง 90° ให้ถือมือถือแนวนอนอ่าน (ใช้ได้แม้ล็อกการหมุนจอ) */
+.fs{position:fixed;inset:0;z-index:15;background:#000;overflow:hidden}
+.fs-box{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;flex-direction:column}
+.fs.rot .fs-box{left:100%;width:var(--fs-w);height:var(--fs-h);transform-origin:top left;transform:rotate(90deg)}
+.fs-stage{flex:1;min-height:0;display:flex;align-items:center;justify-content:center}
+.fs-stage img{max-width:100%;max-height:100%;object-fit:contain;display:block}
+.fs-bar{display:flex;align-items:center;gap:8px;padding:6px 8px;background:#0B1220;border-top:1px solid var(--line)}
+.fs-bar .btn{flex:1;min-height:44px;padding:6px 10px}
+
+/* ===== done ===== */
+.cert{text-align:center;border-top:6px solid var(--green)}
+.cert .tick{width:84px;height:84px;margin:6px auto 12px;border-radius:50%;display:grid;place-items:center;background:rgba(22,163,74,.18);border:2px solid var(--green-hi);color:var(--green-hi)}
+.cert .tick svg{width:46px;height:46px}
+.cert h2{font-size:24px;color:#BBF7D0}
+.cert dl{display:grid;grid-template-columns:auto 1fr;gap:8px 14px;text-align:left;margin:18px 0 6px;padding:16px;border-radius:12px;background:rgba(2,6,23,.5);border:1px solid var(--line)}
+.cert dt{color:var(--muted);font-size:16px}
+.cert dd{margin:0;font-weight:600;overflow-wrap:anywhere}
+.cert .ref{font-family:ui-monospace,Consolas,monospace;letter-spacing:.05em;color:var(--yellow)}
+.cert .show{font-size:16px;color:var(--text-2);margin:12px 0 0}
+.stack{display:grid;gap:10px;margin-top:16px}
+
+.toast{position:fixed;left:50%;bottom:calc(20px + var(--safe-b));transform:translate(-50%,20px);opacity:0;pointer-events:none;background:#1E293B;color:var(--text);border:1px solid var(--line-strong);border-radius:12px;padding:12px 18px;font-size:16px;box-shadow:var(--shadow);transition:opacity .2s,transform .2s;z-index:20;max-width:calc(100% - 32px)}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+.test-out{white-space:pre-wrap;font-family:ui-monospace,Consolas,monospace;font-size:13px}
+
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+
+<!-- พื้นหลังธีมก่อสร้าง (วาดเป็น SVG เอง ไม่ใช้รูปจากเว็บอื่น) -->
+<div class="bg" aria-hidden="true">
+  <svg viewBox="0 0 1440 900" preserveAspectRatio="xMaxYMax slice" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <pattern id="g1" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0V32" fill="none" stroke="rgba(148,163,184,.06)" stroke-width="1"/></pattern>
+      <pattern id="g2" width="160" height="160" patternUnits="userSpaceOnUse"><path d="M160 0H0V160" fill="none" stroke="rgba(56,189,248,.08)" stroke-width="1.2"/></pattern>
+      <radialGradient id="glow" cx="78%" cy="18%" r="45%"><stop offset="0" stop-color="#F97316" stop-opacity=".22"/><stop offset="1" stop-color="#F97316" stop-opacity="0"/></radialGradient>
+      <pattern id="haz" width="40" height="40" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="20" height="40" fill="#FACC15"/><rect x="20" width="20" height="40" fill="#111827"/></pattern>
+    </defs>
+    <rect width="1440" height="900" fill="url(#g1)"/>
+    <rect width="1440" height="900" fill="url(#g2)"/>
+    <rect width="1440" height="900" fill="url(#glow)"/>
+    <!-- ตึกเสร็จแล้ว ด้านหลัง -->
+    <g fill="#16243A" opacity=".9">
+      <rect x="120" y="470" width="150" height="430"/><rect x="290" y="540" width="110" height="360"/><rect x="430" y="420" width="130" height="480"/>
+      <rect x="600" y="600" width="120" height="300"/>
+    </g>
+    <g fill="rgba(250,204,21,.18)">
+      <rect x="140" y="500" width="14" height="10"/><rect x="180" y="540" width="14" height="10"/><rect x="220" y="500" width="14" height="10"/><rect x="140" y="620" width="14" height="10"/><rect x="220" y="700" width="14" height="10"/>
+      <rect x="450" y="460" width="14" height="10"/><rect x="490" y="520" width="14" height="10"/><rect x="530" y="460" width="14" height="10"/><rect x="450" y="640" width="14" height="10"/><rect x="530" y="760" width="14" height="10"/>
+    </g>
+    <!-- นั่งร้าน -->
+    <g stroke="#2B3B55" stroke-width="5" fill="none">
+      <path d="M760 900V560M840 900V560M920 900V560M1000 900V560"/>
+      <path d="M752 580H1008M752 660H1008M752 740H1008M752 820H1008"/>
+      <path d="M760 660L840 580M840 740L920 660M920 820L1000 740M760 820L840 740M920 660L1000 580"/>
+    </g>
+    <g fill="#EA580C" opacity=".55"><rect x="752" y="574" width="256" height="8"/><rect x="752" y="734" width="256" height="8"/></g>
+    <!-- โครงเหล็กตึกกำลังสร้าง -->
+    <g stroke="#334155" stroke-width="7" fill="none">
+      <path d="M1060 900V330M1150 900V330M1240 900V330M1330 900V330M1420 900V330"/>
+      <path d="M1052 330H1428M1052 420H1428M1052 510H1428M1052 600H1428M1052 690H1428M1052 780H1428"/>
+    </g>
+    <g stroke="#334155" stroke-width="3" fill="none" opacity=".8">
+      <path d="M1060 420L1150 330M1150 510L1240 420M1240 600L1330 510M1330 690L1420 600M1060 600L1150 510M1150 780L1240 690M1240 420L1330 330"/>
+    </g>
+    <!-- ทาวเวอร์เครน -->
+    <g stroke="#F97316" stroke-opacity=".6" stroke-width="4" fill="none">
+      <path d="M1190 900V150M1226 900V150"/>
+      <path d="M1190 900L1226 860L1190 820L1226 780L1190 740L1226 700L1190 660L1226 620L1190 580L1226 540L1190 500L1226 460L1190 420L1226 380L1190 340L1226 300L1190 260L1226 220L1190 180L1226 150" stroke-width="2.5"/>
+      <path d="M760 150H1440M760 182H1226" />
+      <path d="M780 182L800 150L820 182L840 150L860 182L880 150L900 182L920 150L940 182L960 150L980 182L1000 150L1020 182L1040 150L1060 182L1080 150L1100 182L1120 150L1140 182L1160 150L1180 182" stroke-width="2"/>
+      <path d="M1208 150L1208 80M1208 80L780 150M1208 80L1420 150"/>
+    </g>
+    <rect x="1330" y="150" width="80" height="44" fill="#F97316" opacity=".45"/>
+    <rect x="1170" y="186" width="36" height="30" rx="4" fill="#F97316" opacity=".5"/>
+    <!-- รอก + ของที่ยก -->
+    <g stroke="#94A3B8" stroke-opacity=".55" stroke-width="2" fill="none"><path d="M880 182V430M876 182V430"/><path d="M878 430l-34 34M878 430l34 34"/></g>
+    <rect x="814" y="464" width="128" height="16" fill="#FACC15" opacity=".6"/>
+    <!-- แถบ hazard ล่างสุด -->
+    <rect x="0" y="882" width="1440" height="18" fill="url(#haz)" opacity=".55"/>
+  </svg>
+</div>
+<div class="hazard" role="presentation"></div>
+
+<header class="topbar" id="topbar">
+  <div class="brand" aria-label="HAMER Safety First">
+    <img src="assets/hamer.png" alt="HAMER">
+    <span class="sep"></span>
+    <img src="assets/safety-first.png" alt="ปลอดภัยไว้ก่อน Safety First">
+  </div>
+  <div class="dept"><b>ฝ่ายความปลอดภัย</b>บจก. ชูศิลป์ กรุ๊ป เทรดดิ้ง</div>
+</header>
+
+<main>
+  <!-- หน้าแรก: ลงชื่อ + เลือกหลักสูตร -->
+  <section class="view wrap" id="view-home" hidden>
+    <div class="hero">
+      <span class="eyebrow">CONTRACTOR SAFETY TRAINING</span>
+      <h1>อบรมความปลอดภัย<br><span>สำหรับผู้รับเหมา</span></h1>
+      <p>อ่านเนื้อหาให้ครบทุกหน้า แล้วกดยืนยันเพื่อบันทึกผลการอบรมก่อนเริ่มปฏิบัติงาน</p>
+    </div>
+    <div class="steps" id="steps"></div>
+    <div id="home-body"></div>
+    <div class="footer">ฝ่ายความปลอดภัย · บริษัท ชูศิลป์ กรุ๊ป เทรดดิ้ง จำกัด</div>
+  </section>
+
+  <!-- หน้าแสดงผลผ่านการอบรม -->
+  <section class="view wrap" id="view-done" hidden></section>
+
+  <!-- ผลทดสอบ (?test=1) -->
+  <section class="view wrap" id="view-test" hidden><div class="card"><h2>ผลทดสอบระบบ</h2><div class="test-out" id="test-out"></div></div></section>
+</main>
+
+<!-- หน้าอ่านสไลด์ -->
+<div class="reader view" id="view-read" hidden>
+  <div class="r-top">
+    <button class="icon-btn" id="r-back" aria-label="กลับหน้าหลัก"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+    <div class="title" id="r-title"></div>
+    <button class="full-btn" id="r-full" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3M21 8V5a2 2 0 0 0-2-2h-3M3 16v3a2 2 0 0 0 2 2h3M16 21h3a2 2 0 0 0 2-2v-3"/></svg>เต็มจอ</button>
+    <button class="icon-btn" id="r-zoom" aria-label="ขยายภาพ" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3M11 8v6M8 11h6"/></svg></button>
+  </div>
+  <div class="r-progress"><span id="r-bar"></span></div>
+  <div class="stage" id="r-stage"><div class="spinner"></div><img id="r-img" alt="">
+    <div class="retry" id="r-retry" hidden>โหลดรูปหน้านี้ไม่ได้ ตรวจสัญญาณเน็ต<button class="btn btn-primary" id="r-retry-btn" type="button">ลองโหลดใหม่</button></div></div>
+  <div class="rotate-hint" id="r-rotate"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="11" rx="2"/><path d="M8 3h8"/></svg>ตัวหนังสือเล็ก? กดปุ่ม "เต็มจอ" แล้วตะแคงโทรศัพท์อ่าน</div>
+  <div class="r-bottom">
+    <div class="r-nav">
+      <button class="btn btn-ghost" id="r-prev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>ก่อนหน้า</button>
+      <div class="pageno" id="r-pageno" aria-live="polite"></div>
+      <button class="btn btn-primary" id="r-next">ถัดไป<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></button>
+    </div>
+    <div class="r-confirm" id="r-confirm" hidden>
+      <div class="note" id="r-note"></div>
+      <button class="btn btn-success btn-block" id="r-finish"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>อ่านจบแล้ว ยืนยันการอบรม</button>
+    </div>
+  </div>
+</div>
+
+<!-- โหมดอ่านเต็มจอ (BUG-07) -->
+<div class="fs" id="fs" hidden>
+  <div class="fs-box">
+    <div class="fs-stage"><img id="fs-img" alt=""></div>
+    <div class="fs-bar">
+      <button class="btn btn-ghost" id="fs-prev" type="button">ก่อนหน้า</button>
+      <div class="pageno" id="fs-pageno"></div>
+      <button class="btn btn-primary" id="fs-next" type="button">ถัดไป</button>
+      <button class="icon-btn" id="fs-close" type="button" aria-label="ออกจากโหมดเต็มจอ"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+// ===== 1. CONFIG & CONSTANTS =====
+// ใส่ URL ของ Google Apps Script Web App ที่ deploy แล้ว (ลงท้าย /exec) — ว่างไว้ = เก็บผลรอส่งในเครื่องก่อน
+const GAS_URL = '';
+const STORAGE_KEY = 'hamer_training_v1';
+const SCHEMA_VERSION = 3;
+const FETCH_TIMEOUT_MS = 20000;
+const MIN_SECONDS_PER_PAGE = 5;   // ต้องอยู่หน้านั้น (จอเปิดอยู่) อย่างน้อยกี่วินาที ถึงนับว่าอ่านแล้ว [เดย์เลือก 5 วิ]
+const IDLE_LIMIT_MS = 3 * 60000;  // ไม่แตะจอเกิน 3 นาที = ไม่นับเป็นเวลาอ่าน
+
+// pages = จำนวนรูปที่ tools/convert_slides.py สร้าง (ตัดหน้าซ้ำใน PDF แล้ว) — เพิ่ม/แก้ PDF ต้องแก้ตรงนี้ด้วย
+const COURSES = [
+  { code:'general',   group:'course', name:'อบรมผู้รับเหมางานทั่วไป',       pages:69, color:'#F97316', icon:'helmet', desc:'พื้นฐานความปลอดภัย กฎระเบียบ PPE Work Permit' },
+  { code:'hotwork',   group:'course', name:'อบรมผู้รับเหมางานก่อประกายไฟ',  pages:81, color:'#EF4444', icon:'flame',  desc:'งานเชื่อม ตัด เจียร และงานที่เกิดความร้อน' },
+  { code:'height',    group:'course', name:'อบรมการทำงานที่สูง',            pages:79, color:'#FACC15', icon:'ladder', desc:'นั่งร้าน บันได เข็มขัดนิรภัยแบบเต็มตัว' },
+  { code:'confined',  group:'course', name:'อบรมการทำงานในที่อับอากาศ',     pages:78, color:'#22D3EE', icon:'tank',   desc:'ถัง บ่อ ท่อ และพื้นที่อากาศถ่ายเทไม่ดี' },
+  { code:'flowchart', group:'doc',    name:'Flow Chart ขั้นตอนขอใบอนุญาตทำงาน (Work Permit)', pages:1, color:'#A3E635', icon:'flow', portrait:true, desc:'ขั้นตอนตั้งแต่แจ้ง จป. จนปิดใบอนุญาต' },
+  { code:'sdsf00',    group:'doc',    name:'SD-SF-00 ข้อปฏิบัติด้านความปลอดภัย',  pages:3, color:'#C4B5FD', icon:'doc',  desc:'ข้อปฏิบัติสำหรับผู้รับเหมาภายนอก' },
+];
+
+const ICONS = {
+  helmet:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18h18"/><path d="M5 18v-3a7 7 0 0 1 14 0v3"/><path d="M10 8.3V5.5a2 2 0 0 1 4 0v2.8"/><path d="M12 11v3"/></svg>',
+  flame:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c4 0 7-2.7 7-7 0-4-3-6.5-4-10-2 2-3 4-3 6-1.5-1-2.5-2.5-2.5-4C6.5 9.5 5 12.5 5 15c0 4.3 3 7 7 7z"/><path d="M12 22c-1.7 0-3-1.2-3-3 0-1.8 1.5-3 3-5 1.5 2 3 3.2 3 5 0 1.8-1.3 3-3 3z"/></svg>',
+  ladder:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 2v20M17 2v20M7 6h10M7 11h10M7 16h10"/></svg>',
+  tank:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="7" ry="2.5"/><path d="M5 5v13c0 1.4 3.1 2.5 7 2.5s7-1.1 7-2.5V5"/><path d="M9 12h6M12 9v6"/></svg>',
+  flow:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="2" width="8" height="5" rx="1"/><rect x="2" y="17" width="8" height="5" rx="1"/><rect x="14" y="17" width="8" height="5" rx="1"/><path d="M12 7v5M6 17v-3h12v3"/></svg>',
+  doc:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h6"/></svg>',
+  user:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>',
+  chev:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>',
+  check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>',
+  clock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+  cloud:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19a4.5 4.5 0 0 0 0-9h-1.3A7 7 0 1 0 4 15.3"/><path d="M12 13v8M8.5 16.5L12 13l3.5 3.5"/></svg>',
+  alert:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9L1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg>',
+};
+
+// ===== 2. STATE (+ localStorage key + SCHEMA_VERSION) =====
+// profile: ผู้ลงชื่อในเครื่องนี้ / progress: หน้าที่เปิดแล้ว + เวลาอ่านจริง (activeMs) รายหลักสูตร / completions: ผลที่ยืนยันแล้ว / queue: รายการรอส่งเข้า Sheet
+let state = defaultState();
+// reader (ไม่บันทึกลงเครื่อง): loaded/failed = สถานะรูปหน้าปัจจุบัน, dwellLeft = วินาทีที่ต้องอยู่ต่อก่อนนับว่าอ่าน, full = โหมดเต็มจอ
+let reader = newReader(null, 1);
+let flushing = false;
+let editingProfile = false; // กำลังแก้ไขข้อมูลผู้ลงชื่อ (BUG-13)
+
+function newReader(code, page){
+  return { code, page, zoom:false, full:false, startTouch:null, loaded:false, failed:false, dwellLeft:MIN_SECONDS_PER_PAGE, lastActive:Date.now(), ticker:null, tick:0 };
+}
+
+function defaultState(){
+  return { version:SCHEMA_VERSION, profile:null, progress:{}, completions:[], queue:[], lastSyncAt:null, lastSyncError:null };
+}
+
+// ===== 3. DATA LAYER (load / save / migrate) =====
+function load(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(!raw){ state = defaultState(); return; }
+    const old = JSON.parse(raw);
+    const oldVersion = old && old.version;
+    state = migrate(old);
+    if(oldVersion !== SCHEMA_VERSION) save(); // เขียนข้อมูลที่ migrate แล้วกลับทันที (v2: ลบเลขบัตรออกจากเครื่อง)
+  }catch(e){
+    console.error('[load] อ่านข้อมูลในเครื่องไม่ได้ ใช้ค่าเริ่มต้น', e);
+    state = defaultState();
+  }
+}
+function save(){
+  try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+  catch(e){ console.error('[save] บันทึกในเครื่องไม่ได้', e); toast('บันทึกในเครื่องไม่ได้ (โหมดส่วนตัว?) — ผลการอบรมยังส่งได้ตามปกติ'); }
+}
+function migrate(d){
+  if(!d || typeof d !== 'object') return defaultState();
+  const base = defaultState();
+  // v1: เติม field ที่ขาดด้วยค่าเริ่มต้น
+  for(const k of Object.keys(base)) if(d[k] === undefined) d[k] = base[k];
+  if(!Array.isArray(d.completions)) d.completions = [];
+  if(!Array.isArray(d.queue)) d.queue = [];
+  if(typeof d.progress !== 'object' || d.progress === null) d.progress = {};
+  // v2: เลิกเก็บเลขบัตรประชาชน/Passport — ลบที่เคยเก็บไว้ในเครื่อง (ผลที่รอส่งยังส่งได้ตามปกติ)
+  if(d.profile) delete d.profile.idNo;
+  for(const r of d.completions.concat(d.queue)) if(r && typeof r === 'object') delete r.idNo;
+  // v3: progress มี activeMs (เวลาอ่านจริง) — ข้อมูลเก่าไม่มี ปล่อยว่างไว้ ระบบจะใช้เวลาเปิด→ยืนยันแบบเดิมแทน
+  for(const k of Object.keys(d.progress)){
+    const p = d.progress[k];
+    if(!p || typeof p !== 'object') { delete d.progress[k]; continue; }
+    if(!Array.isArray(p.viewed)) p.viewed = [];
+  }
+  d.version = SCHEMA_VERSION;
+  return d;
+}
+
+// ===== 4. BUSINESS LOGIC (pure functions — ห้ามแตะ DOM) =====
+const clean = s => String(s == null ? '' : s).replace(/\s+/g,' ').trim();
+const digitsOnly = s => String(s == null ? '' : s).replace(/\D/g,'');
+const pad3 = n => String(n).padStart(3,'0');
+const findCourse = code => COURSES.find(c => c.code === code) || null;
+const slideSrc = (code, page) => `slides/${code}/${pad3(page)}.webp`;
+
+// เบอร์โทรไทย: ขึ้นต้น 0 ยาว 9–10 หลัก (มือถือ 10 / บ้าน 9) — รับ +66 แล้วแปลงเป็น 0 ให้
+function validatePhone(raw){
+  const v = clean(raw);
+  if(!v) return { ok:false, msg:'กรุณากรอกเบอร์โทรศัพท์' };
+  if(/[^\d\s\-+().]/.test(v)) return { ok:false, msg:'กรอกเฉพาะตัวเลข เช่น 081-234-5678' };
+  let d = digitsOnly(v);
+  if(d.startsWith('66') && d.length === 11) d = '0' + d.slice(2);
+  if(d[0] !== '0') return { ok:false, msg:'เบอร์โทรต้องขึ้นต้นด้วย 0 เช่น 081-234-5678' };
+  if(d.length < 9 || d.length > 10) return { ok:false, msg:'เบอร์โทรต้องมี 10 หลัก (มือถือ) หรือ 9 หลัก (เบอร์บ้าน)' };
+  return { ok:true, value:d };
+}
+function validateProfile(input){
+  const errors = {};
+  const name = clean(input.name), company = clean(input.company);
+  if(!name) errors.name = 'กรุณากรอกชื่อ-นามสกุล';
+  else if(name.length < 3) errors.name = 'ชื่อสั้นเกินไป กรุณากรอกทั้งชื่อและนามสกุล';
+  else if(name.length > 100) errors.name = 'ชื่อยาวเกินไป';
+  if(!company) errors.company = 'กรุณากรอกชื่อบริษัทผู้รับเหมา';
+  else if(company.length < 2) errors.company = 'ชื่อบริษัทสั้นเกินไป กรุณากรอกชื่อเต็ม';
+  else if(company.length > 120) errors.company = 'ชื่อบริษัทยาวเกินไป';
+  const ph = validatePhone(input.phone); if(!ph.ok) errors.phone = ph.msg;
+  if(!input.consent) errors.consent = 'กรุณาติ๊กยินยอมก่อนเริ่มอบรม';
+  const ok = Object.keys(errors).length === 0;
+  return { ok, errors, profile: ok ? { name, company, phone:ph.value } : null };
+}
+
+// ความคืบหน้า: นับเฉพาะเลขหน้าที่อยู่ในช่วง 1..total และไม่ซ้ำ
+function progressInfo(viewed, total){
+  const set = new Set((viewed || []).filter(p => Number.isInteger(p) && p >= 1 && p <= total));
+  const count = set.size;
+  return { count, total, pct: total > 0 ? count / total : 0, complete: total > 0 && count === total };
+}
+function firstUnviewed(viewed, total){
+  const set = new Set(viewed || []);
+  for(let p = 1; p <= total; p++) if(!set.has(p)) return p;
+  return null;
+}
+function makeRef(date, rand){
+  const d = date || new Date();
+  const ymd = String(d.getFullYear()).slice(2) + String(d.getMonth()+1).padStart(2,'0') + String(d.getDate()).padStart(2,'0');
+  return `TR-${ymd}-${rand}`;
+}
+function randomCode(len){
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; // ตัด 0 O 1 I ที่อ่านสับสน
+  const buf = new Uint8Array(len);
+  (window.crypto || window.msCrypto).getRandomValues(buf);
+  return Array.from(buf, b => chars[b % chars.length]).join('');
+}
+function minutesBetween(isoA, isoB){
+  const a = Date.parse(isoA), b = Date.parse(isoB);
+  if(isNaN(a) || isNaN(b) || b < a) return 0;
+  return Math.round((b - a) / 6000) / 10; // ทศนิยม 1 ตำแหน่ง
+}
+// เวลาอ่าน (วินาที): ใช้ activeMs (นับเฉพาะตอนเปิดหน้าอ่านและจอเปิดอยู่) — ข้อมูลเก่าที่ไม่มี activeMs ใช้เวลาเปิด→ยืนยันแทน
+function readingSeconds(prog, finishedAt){
+  if(Number.isFinite(prog.activeMs) && prog.activeMs >= 0) return Math.round(prog.activeMs / 1000);
+  return Math.round(minutesBetween(prog.startedAt || finishedAt, finishedAt) * 60);
+}
+function buildRecord(profile, course, prog, finishedAt, ref){
+  const startedAt = prog.startedAt || finishedAt;
+  const info = progressInfo(prog.viewed, course.pages);
+  const sec = readingSeconds(prog, finishedAt);
+  return {
+    ref, name:profile.name, company:profile.company, phone:profile.phone,
+    courseCode:course.code, courseName:course.name,
+    startedAt, finishedAt, durationMin:Math.round(sec / 6) / 10, durationSec:sec,
+    pagesViewed:info.count, pagesTotal:course.pages, consentAt:profile.consentAt || ''
+  };
+}
+// แสดงเวลาให้คนหน้างานอ่านง่าย: 45 → "45 วินาที", 125 → "2 นาที 5 วินาที"
+function formatDuration(sec){
+  if(!Number.isFinite(sec) || sec < 0) return '-';
+  sec = Math.round(sec);
+  if(sec < 60) return `${sec} วินาที`;
+  const m = Math.floor(sec / 60), s = sec % 60;
+  return s ? `${m} นาที ${s} วินาที` : `${m} นาที`;
+}
+// ไปหน้าถัดไปได้เมื่อหน้านี้นับว่าอ่านแล้ว (BUG-08)
+function canGoNext(viewed, page, total){
+  return page < total && (viewed || []).includes(page);
+}
+function thaiDateTime(iso){
+  const d = new Date(iso);
+  if(isNaN(d)) return '-';
+  return d.toLocaleString('th-TH', { year:'numeric', month:'short', day:'numeric', hour:'2-digit', minute:'2-digit' }) + ' น.';
+}
+function thaiDate(iso){
+  const d = new Date(iso);
+  return isNaN(d) ? '-' : d.toLocaleDateString('th-TH', { year:'2-digit', month:'short', day:'numeric' });
+}
+function latestCompletion(completions, code){
+  let best = null;
+  for(const c of completions || []) if(c.courseCode === code && (!best || c.finishedAt > best.finishedAt)) best = c;
+  return best;
+}
+const escapeHtml = s => String(s == null ? '' : s).replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+
+// ===== 5. RENDER (วาด UI จาก state เท่านั้น) =====
+const $ = id => document.getElementById(id);
+
+function showView(id){
+  for(const v of document.querySelectorAll('.view')) v.hidden = v.id !== id;
+  $('topbar').hidden = id === 'view-read';
+  document.body.style.overflow = id === 'view-read' ? 'hidden' : '';
+}
+
+// แถบขั้นตอนบอก "ตอนนี้อยู่ขั้นไหน" เท่านั้น — ไม่ติ๊กเขียวจากผลที่มีในเครื่อง เพราะแต่ละคนอบรมคนละหลักสูตร (BUG-01/03)
+function renderSteps(){
+  const reg = !!state.profile && !editingProfile;
+  const steps = [['1','ลงชื่อ', reg, !reg], ['2','อ่านให้ครบ', false, reg], ['3','ยืนยันผล', false, false]];
+  $('steps').innerHTML = steps.map(([n,t,ok,on]) => `<div class="step ${ok?'ok':''} ${on?'on':''}"><i>${ok?ICONS.check.replace('<svg','<svg width="14" height="14"'):n}</i>${t}</div>`).join('');
+}
+
+function renderHome(){
+  renderSteps();
+  const showForm = !state.profile || editingProfile;
+  $('home-body').innerHTML = showForm ? registerHtml(editingProfile ? state.profile : null) : homeCoursesHtml();
+  if(showForm) bindRegister(); else bindHome();
+}
+
+// p = ข้อมูลเดิม (โหมดแก้ไข) หรือ null (ลงชื่อใหม่)
+function registerHtml(p){
+  const v = k => p ? escapeHtml(p[k]) : '';
+  return `
+  <form class="card" id="reg-form" novalidate>
+    <h2>${p ? 'แก้ไขข้อมูลผู้เข้าอบรม' : 'ลงชื่อผู้เข้าอบรม'}</h2>
+    <p class="sub">${p ? 'แก้แล้วความคืบหน้าการอ่านยังอยู่ครบ' : 'กรอกครั้งเดียว ระบบจะจำไว้ในเครื่องนี้สำหรับทุกหลักสูตร'}</p>
+    <div class="field" data-f="name"><label for="f-name">ชื่อ-นามสกุล <em>*</em></label>
+      <input id="f-name" name="name" autocomplete="name" placeholder="เช่น สมชาย ใจดี" maxlength="100" value="${v('name')}"><div class="err"></div></div>
+    <div class="field" data-f="company"><label for="f-company">บริษัทผู้รับเหมา <em>*</em></label>
+      <input id="f-company" name="company" autocomplete="organization" placeholder="เช่น หจก. ก่อสร้างไทย" maxlength="120" value="${v('company')}"><div class="err"></div></div>
+    <div class="field" data-f="phone"><label for="f-phone">เบอร์โทรศัพท์ <em>*</em></label>
+      <input id="f-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="08x-xxx-xxxx" maxlength="15" value="${v('phone')}"><div class="err"></div></div>
+    <label class="consent" id="f-consent-wrap"><input type="checkbox" id="f-consent"${p ? ' checked' : ''}>
+      <span>ข้าพเจ้ายินยอมให้บริษัทเก็บข้อมูลข้างต้น เพื่อใช้บันทึกผลการอบรมความปลอดภัยและประกอบการออกใบอนุญาตทำงานเท่านั้น</span></label>
+    <div class="field" data-f="consent" style="margin:0"><div class="err"></div></div>
+    <button class="btn btn-primary btn-block" type="submit" style="margin-top:16px">${p ? 'บันทึกการแก้ไข' : 'เริ่มอบรม ' + ICONS.chev}</button>
+    ${p ? '<button class="btn btn-ghost btn-block" type="button" id="btn-edit-cancel" style="margin-top:10px">ยกเลิก</button>' : ''}
+  </form>`;
+}
+
+function courseCardHtml(c){
+  const prog = state.progress[c.code] || {};
+  const info = progressInfo(prog.viewed, c.pages);
+  const done = latestCompletion(state.completions, c.code);
+  let status;
+  if(done) status = `<span class="badge done">${ICONS.check} ยืนยันแล้ว ${escapeHtml(thaiDate(done.finishedAt))}</span>`;
+  else if(info.count > 0) status = `<span class="badge doing">${ICONS.clock} อ่านแล้ว ${info.count}/${c.pages} หน้า</span><div class="bar"><span style="transform:scaleX(${info.pct.toFixed(3)})"></span></div>`;
+  else status = `<span class="badge new">ยังไม่ได้อ่าน · ${c.pages} หน้า</span>`;
+  return `<button class="course" data-code="${c.code}" type="button">
+    <span class="ic" style="background:${c.color}">${ICONS[c.icon]}</span>
+    <span class="body"><span class="t">${escapeHtml(c.name)}</span><span class="m" style="display:block">${escapeHtml(c.desc)}</span>${status}</span>
+    <span class="chev">${ICONS.chev}</span></button>`;
+}
+
+function syncHtml(){
+  const n = state.queue.length;
+  if(!n){
+    if(!state.completions.length) return '';
+    return `<div class="sync ok">${ICONS.check}<span class="grow">ส่งผลการอบรมเข้าระบบครบแล้ว</span></div>`;
+  }
+  const cls = state.lastSyncError ? 'err' : 'warn';
+  // คิวเป็นของทั้งเครื่อง (อาจมีผลของคนที่ลงชื่อก่อนหน้า) จึงพูดว่า "เครื่องนี้" ไม่ใช่ "คุณ" (BUG-14)
+  const msg = !GAS_URL ? `เครื่องนี้มีผลอบรม ${n} รายการ เก็บไว้รอส่ง (ยังไม่ได้ตั้งค่าเซิร์ฟเวอร์)`
+    : state.lastSyncError ? `ส่งผลอบรมของเครื่องนี้ ${n} รายการไม่สำเร็จ — ตรวจสัญญาณเน็ตแล้วกดลองใหม่` : `เครื่องนี้มีผลอบรมรอส่ง ${n} รายการ`;
+  return `<div class="sync ${cls}">${state.lastSyncError ? ICONS.alert : ICONS.cloud}<span class="grow">${msg}</span>${GAS_URL ? '<button class="btn btn-ghost" id="btn-sync" type="button">ลองใหม่</button>' : ''}</div>`;
+}
+
+function homeCoursesHtml(){
+  const p = state.profile;
+  const courses = COURSES.filter(c => c.group === 'course'), docs = COURSES.filter(c => c.group === 'doc');
+  return `
+  <div class="card"><div class="who">
+    <span class="avatar">${ICONS.user}</span>
+    <div class="grow"><div class="name">${escapeHtml(p.name)}</div><div class="co">${escapeHtml(p.company)}</div></div>
+    <div style="display:flex;flex-direction:column;align-items:flex-end">
+      <button class="link-btn" id="btn-edit" type="button">แก้ไขข้อมูล</button>
+      <button class="link-btn" id="btn-notme" type="button">ไม่ใช่ฉัน</button>
+    </div>
+  </div>${syncHtml()}</div>
+  <div class="section-title">หลักสูตรอบรม<small>เลือกตามประเภทงานที่จะทำ</small></div>
+  <div class="course-list">${courses.map(courseCardHtml).join('')}</div>
+  <div class="section-title">เอกสารที่ต้องรับทราบ</div>
+  <div class="course-list">${docs.map(courseCardHtml).join('')}</div>`;
+}
+
+function renderReader(){
+  const c = findCourse(reader.code); if(!c) return;
+  $('r-title').textContent = c.name;
+  const stage = $('r-stage');
+  stage.classList.toggle('zoom', reader.zoom);
+  stage.classList.toggle('portrait', !!c.portrait);
+  $('r-zoom').setAttribute('aria-pressed', String(reader.zoom));
+  $('r-zoom').setAttribute('aria-label', reader.zoom ? 'ย่อภาพให้พอดีจอ' : 'ขยายภาพ');
+  $('r-rotate').classList.toggle('show', !c.portrait && !reader.zoom);
+
+  const img = $('r-img'), src = slideSrc(c.code, reader.page);
+  // ไม่มี src (เพิ่งเปิด/กดลองใหม่) หรือเปลี่ยนหน้า → โหลดรูปใหม่ (BUG-02)
+  if(img.getAttribute('src') !== src){
+    reader.loaded = false; reader.failed = false; reader.dwellLeft = MIN_SECONDS_PER_PAGE;
+    stage.classList.add('loading');
+    img.alt = `${c.name} หน้า ${reader.page}`;
+    img.src = src;
+    stage.scrollTop = 0; stage.scrollLeft = 0;
+  }
+  $('r-retry').hidden = !reader.failed;
+  stage.classList.toggle('failed', reader.failed);
+  if(reader.full && $('fs-img').getAttribute('src') !== src){ $('fs-img').src = src; $('fs-img').alt = img.alt; }
+  renderNav();
+  // โหลดล่วงหน้า 2 หน้าถัดไป ให้ปัดแล้วขึ้นทันที
+  for(const n of [reader.page + 1, reader.page + 2]) if(n <= c.pages){ const pre = new Image(); pre.src = slideSrc(c.code, n); }
+}
+
+// ส่วนนำทาง/ความคืบหน้า — เรียกทุกวินาทีตอนนับถอยหลัง จึงแยกจาก renderReader
+function renderNav(){
+  const c = findCourse(reader.code); if(!c) return;
+  const prog = state.progress[c.code] || { viewed:[] };
+  const info = progressInfo(prog.viewed, c.pages);
+  const here = prog.viewed.includes(reader.page);
+  const waitLabel = reader.failed ? 'โหลดไม่ได้' : !reader.loaded ? 'กำลังโหลด…' : `รอ ${reader.dwellLeft} วิ`;
+  const nextHtml = here ? 'ถัดไป' + ICONS.chev : waitLabel;
+  const pageno = `${reader.page} / ${c.pages}<small>อ่านแล้ว ${info.count} หน้า</small>`;
+  $('r-pageno').innerHTML = pageno;
+  $('r-bar').style.transform = `scaleX(${info.pct.toFixed(3)})`;
+  $('r-prev').disabled = reader.page <= 1;
+  $('r-next').disabled = !canGoNext(prog.viewed, reader.page, c.pages);
+  if(reader.page < c.pages && $('r-next').dataset.html !== nextHtml){ $('r-next').innerHTML = nextHtml; $('r-next').dataset.html = nextHtml; }
+  $('r-next').hidden = c.pages === 1 || reader.page === c.pages; // หน้าสุดท้ายไม่มีหน้าถัดไป — เหลือแค่ปุ่มยืนยัน (BUG-15)
+  $('r-prev').hidden = c.pages === 1;
+  // ปุ่มยืนยันโผล่เมื่ออยู่หน้าสุดท้าย หรืออ่านครบแล้ว
+  const atEnd = reader.page === c.pages;
+  $('r-confirm').hidden = !(atEnd || info.complete);
+  $('r-finish').disabled = !info.complete;
+  const miss = firstUnviewed(prog.viewed, c.pages);
+  $('r-note').textContent = info.complete ? 'อ่านครบทุกหน้าแล้ว กดยืนยันเพื่อบันทึกผล'
+    : (atEnd && !here) ? `อ่านหน้านี้อีก ${reader.dwellLeft} วินาที` + (c.pages - info.count > 1 ? ` และยังเหลือหน้าที่ยังไม่ได้อ่าน (เริ่มที่หน้า ${miss})` : '')
+    : `ยังเหลือ ${c.pages - info.count} หน้าที่ยังไม่ได้อ่าน (เริ่มที่หน้า ${miss})`;
+  // แถบล่างของโหมดเต็มจอ: หน้าสุดท้ายที่อ่านแล้ว ปุ่มขวากลายเป็น "ปิดเต็มจอ" เพื่อไปกดยืนยัน
+  if(reader.full){
+    $('fs-pageno').innerHTML = pageno;
+    $('fs-prev').disabled = reader.page <= 1;
+    const fsNext = atEnd ? (here ? 'ปิดเต็มจอ' : waitLabel) : nextHtml;
+    if($('fs-next').dataset.html !== fsNext){ $('fs-next').innerHTML = fsNext; $('fs-next').dataset.html = fsNext; }
+    $('fs-next').disabled = atEnd ? !here : !canGoNext(prog.viewed, reader.page, c.pages);
+  }
+}
+
+function renderDone(ref){
+  const r = state.completions.find(x => x.ref === ref);
+  if(!r){ location.hash = '#/'; return; }
+  const pending = state.queue.some(q => q.ref === ref);
+  const syncLine = pending
+    ? `<div class="sync ${state.lastSyncError ? 'err' : 'warn'}">${ICONS.cloud}<span class="grow">${GAS_URL ? 'กำลังรอส่งผลเข้าระบบ — ระบบจะส่งให้อัตโนมัติเมื่อมีสัญญาณเน็ต' : 'บันทึกไว้ในเครื่องแล้ว (ยังไม่ได้ตั้งค่าเซิร์ฟเวอร์)'}</span>${GAS_URL ? '<button class="btn btn-ghost" id="btn-sync" type="button">ส่งตอนนี้</button>' : ''}</div>`
+    : `<div class="sync ok">${ICONS.check}<span class="grow">ส่งผลเข้าระบบเรียบร้อยแล้ว</span></div>`;
+  $('view-done').innerHTML = `
+    <div class="card cert">
+      <div class="tick">${ICONS.check}</div>
+      <h2>ยืนยันการอบรมเรียบร้อย</h2>
+      <dl>
+        <dt>ชื่อ</dt><dd>${escapeHtml(r.name)}</dd>
+        <dt>บริษัท</dt><dd>${escapeHtml(r.company)}</dd>
+        <dt>หลักสูตร</dt><dd>${escapeHtml(r.courseName)}</dd>
+        <dt>อ่าน</dt><dd>${r.pagesViewed}/${r.pagesTotal} หน้า · ${formatDuration(Number.isFinite(r.durationSec) ? r.durationSec : r.durationMin * 60)}</dd>
+        <dt>เวลา</dt><dd>${escapeHtml(thaiDateTime(r.finishedAt))}</dd>
+        <dt>รหัส</dt><dd class="ref">${escapeHtml(r.ref)}</dd>
+      </dl>
+      <p class="show">แสดงหน้านี้ต่อ จป.วิชาชีพ เพื่อยื่นขอใบอนุญาตทำงาน</p>
+      ${syncLine}
+      <div class="stack"><a class="btn btn-primary btn-block" href="#/">กลับไปเลือกหลักสูตรอื่น</a></div>
+    </div>
+    <div class="footer">ฝ่ายความปลอดภัย · บริษัท ชูศิลป์ กรุ๊ป เทรดดิ้ง จำกัด</div>`;
+  const b = $('btn-sync'); if(b) b.onclick = () => flushQueue(true);
+}
+
+let toastTimer;
+function toast(msg){
+  const t = $('toast'); t.textContent = msg; t.classList.add('show');
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove('show'), 3200);
+}
+
+// ===== 6. EVENT HANDLERS =====
+function bindRegister(){
+  const form = $('reg-form');
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const input = { name:$('f-name').value, company:$('f-company').value, phone:$('f-phone').value, consent:$('f-consent').checked };
+    const res = validateProfile(input);
+    for(const f of form.querySelectorAll('.field[data-f]')){
+      const msg = res.errors[f.dataset.f];
+      f.classList.toggle('bad', !!msg);
+      f.querySelector('.err').textContent = msg || '';
+    }
+    $('f-consent-wrap').classList.toggle('bad', !!res.errors.consent);
+    if(!res.ok){
+      const first = form.querySelector('.field.bad input') || (res.errors.consent && $('f-consent'));
+      if(first) first.focus();
+      return;
+    }
+    const wasEditing = editingProfile && state.profile;
+    // แก้ไขข้อมูล: คงเวลายินยอมเดิม + ความคืบหน้าเดิม (BUG-13)
+    state.profile = { ...res.profile, consentAt: wasEditing ? (state.profile.consentAt || new Date().toISOString()) : new Date().toISOString() };
+    editingProfile = false;
+    save(); renderHome(); window.scrollTo({ top:0 });
+    toast(wasEditing ? 'บันทึกการแก้ไขเรียบร้อย' : 'ลงชื่อเรียบร้อย เลือกหลักสูตรที่ต้องอบรมได้เลย');
+  });
+  const cancel = $('btn-edit-cancel');
+  if(cancel) cancel.addEventListener('click', () => { editingProfile = false; renderHome(); });
+}
+
+function bindHome(){
+  for(const b of document.querySelectorAll('.course')) b.addEventListener('click', () => { location.hash = '#/read/' + b.dataset.code; });
+  $('btn-notme').addEventListener('click', () => {
+    if(!confirm('ออกจากชื่อนี้ และล้างความคืบหน้าการอ่านในเครื่องนี้?\n(ผลที่ยืนยันแล้วแต่ยังไม่ได้ส่ง จะยังส่งเข้าระบบตามปกติ)')) return;
+    // เก็บ queue ไว้เสมอ — ผลที่ยืนยันแล้วยังส่งเข้าระบบได้ แต่ไม่แสดงให้คนถัดไปเห็นว่าเป็นของตัวเอง (BUG-01)
+    state.profile = null; state.progress = {}; state.completions = [];
+    save(); renderHome();
+  });
+  $('btn-edit').addEventListener('click', () => { editingProfile = true; renderHome(); });
+  const s = $('btn-sync'); if(s) s.onclick = () => flushQueue(true);
+}
+
+function openReader(code){
+  const c = findCourse(code);
+  if(!c){ location.hash = '#/'; return; }
+  if(!state.profile){ toast('กรุณาลงชื่อก่อนเริ่มอบรม'); location.hash = '#/'; return; }
+  const prog = state.progress[code] || (state.progress[code] = { viewed:[], startedAt:null, activeMs:0 });
+  if(!prog.startedAt) prog.startedAt = new Date().toISOString();
+  // กลับมาอ่านต่อ: ไปหน้าแรกที่ยังไม่อ่าน (อ่านครบแล้วเริ่มหน้า 1)
+  stopReader();
+  reader = newReader(code, firstUnviewed(prog.viewed, c.pages) || 1);
+  $('r-img').removeAttribute('src'); // บังคับโหลดรูปใหม่ทุกครั้งที่เปิด — กันค้างหลังเน็ตหลุด (BUG-02)
+  save(); showView('view-read'); renderReader();
+  reader.ticker = setInterval(readerTick, 1000);
+}
+
+// ทุก 1 วินาทีระหว่างเปิดหน้าอ่าน: นับเวลาอ่านจริง + นับถอยหลังหน้าปัจจุบัน (หยุดนับเมื่อสลับแอป/ปิดจอ) (BUG-08/09)
+// กำลังดูหน้าจออยู่ไหม — บางเบราว์เซอร์รายงาน visibilityState = hidden ทั้งที่จอแสดงอยู่ จึงยอมรับ hasFocus ด้วย
+// (สลับแอปบนมือถือ = hidden และไม่มี focus ทั้งคู่ → หยุดนับ)
+function isViewing(){ return document.visibilityState === 'visible' || document.hasFocus(); }
+function readerTick(){
+  const prog = state.progress[reader.code]; if(!prog) return;
+  renderDebug();
+  if(!isViewing()) return;
+  if(Date.now() - reader.lastActive < IDLE_LIMIT_MS) prog.activeMs = (prog.activeMs || 0) + 1000;
+  if(reader.loaded && !prog.viewed.includes(reader.page)){
+    reader.dwellLeft = Math.max(0, reader.dwellLeft - 1);
+    if(reader.dwellLeft === 0){ markViewed(); return; }
+    renderNav();
+  }
+  if(++reader.tick % 5 === 0) save();
+}
+// DEBUG PANEL — ซ่อนโดย default เปิดด้วย ?debug=1 (คงไว้จนเดย์สั่งเอาออก)
+const DEBUG = new URLSearchParams(location.search).get('debug') === '1';
+function renderDebug(){
+  if(!DEBUG) return;
+  let box = $('debug-panel');
+  if(!box){
+    box = document.createElement('pre'); box.id = 'debug-panel';
+    box.style.cssText = 'position:fixed;left:4px;top:60px;z-index:50;margin:0;padding:6px 8px;max-width:260px;background:rgba(0,0,0,.85);color:#A3E635;font:12px/1.4 ui-monospace,Consolas,monospace;border:1px solid #A3E635;border-radius:6px;pointer-events:none;white-space:pre-wrap';
+    document.body.appendChild(box);
+  }
+  const prog = state.progress[reader.code] || {};
+  box.textContent = [
+    `time ${new Date().toLocaleTimeString('th-TH')}`,
+    `visibility ${document.visibilityState} · focus ${document.hasFocus()} · viewing ${isViewing()}`,
+    `code ${reader.code} · page ${reader.page} · full ${reader.full}`,
+    `loaded ${reader.loaded} · failed ${reader.failed} · dwellLeft ${reader.dwellLeft}`,
+    `ticker ${!!reader.ticker} · tick ${reader.tick} · idle ${Math.round((Date.now() - reader.lastActive) / 1000)}s`,
+    `viewed [${(prog.viewed || []).join(',')}]`,
+    `activeMs ${prog.activeMs}`,
+  ].join('\n');
+}
+function stopReader(){
+  if(reader.ticker){ clearInterval(reader.ticker); reader.ticker = null; save(); }
+  if(reader.full) closeFull();
+}
+
+function markViewed(){
+  const c = findCourse(reader.code); if(!c) return;
+  const prog = state.progress[c.code];
+  if(!prog.viewed.includes(reader.page)){ prog.viewed.push(reader.page); save(); }
+  renderNav();
+}
+
+function goPage(delta){
+  const c = findCourse(reader.code); if(!c) return;
+  reader.lastActive = Date.now();
+  const prog = state.progress[c.code];
+  // ไปข้างหน้าได้เมื่ออ่านหน้านี้ครบเวลาแล้ว (ปัด/คีย์บอร์ดก็ใช้กติกาเดียวกับปุ่ม)
+  if(delta > 0 && !canGoNext(prog.viewed, reader.page, c.pages)){
+    if(reader.page < c.pages) toast(`อ่านหน้านี้อย่างน้อย ${MIN_SECONDS_PER_PAGE} วินาทีก่อนไปหน้าถัดไป`);
+    return;
+  }
+  const next = Math.min(c.pages, Math.max(1, reader.page + delta));
+  if(next === reader.page) return;
+  reader.page = next; renderReader();
+}
+
+// โหมดอ่านเต็มจอ: จอแนวตั้ง + สไลด์แนวนอน → หมุนภาพ 90° (BUG-07)
+function openFull(){
+  reader.full = true; reader.lastActive = Date.now();
+  $('fs').hidden = false; layoutFull(); renderReader();
+}
+function closeFull(){
+  reader.full = false; $('fs').hidden = true; $('fs-img').removeAttribute('src');
+}
+function layoutFull(){
+  const c = findCourse(reader.code);
+  const rot = !!c && !c.portrait && window.innerHeight > window.innerWidth;
+  const fs = $('fs');
+  fs.classList.toggle('rot', rot);
+  fs.style.setProperty('--fs-w', window.innerHeight + 'px'); // กล่องที่หมุนแล้ว: กว้าง = ความสูงจอ
+  fs.style.setProperty('--fs-h', window.innerWidth + 'px');
+}
+
+function finishCourse(){
+  const c = findCourse(reader.code); if(!c || !state.profile) return;
+  const prog = state.progress[c.code];
+  if(!progressInfo(prog.viewed, c.pages).complete){ toast('ยังอ่านไม่ครบทุกหน้า'); return; }
+  $('r-finish').disabled = true; // กันกดซ้ำ
+  const now = new Date();
+  const rec = buildRecord(state.profile, c, prog, now.toISOString(), makeRef(now, randomCode(5)));
+  state.completions.push(rec);
+  state.queue.push(rec);
+  state.progress[c.code] = { viewed:[], startedAt:null, activeMs:0 }; // อ่านรอบใหม่นับเวลาใหม่
+  stopReader();
+  save();
+  // replace: กดย้อนกลับจากหน้าผลแล้วไปหน้าแรก ไม่ย้อนเข้าหน้าอ่าน (BUG-04)
+  location.replace('#/done/' + rec.ref);
+  flushQueue(false);
+}
+
+// ส่งรายการในคิวทีละรายการ — สำเร็จค่อยลบออกจากคิว (ส่งซ้ำได้ GAS กันซ้ำด้วย ref)
+async function flushQueue(manual){
+  if(flushing || !state.queue.length) return;
+  if(!GAS_URL){ if(manual) toast('ยังไม่ได้ตั้งค่า GAS_URL ในไฟล์ index.html'); return; }
+  flushing = true;
+  if(manual) toast('กำลังส่งผลการอบรม…');
+  try{
+    while(state.queue.length){
+      const rec = state.queue[0];
+      const ctrl = new AbortController(); const timer = setTimeout(() => ctrl.abort(), FETCH_TIMEOUT_MS);
+      let res;
+      try{
+        // ห้ามใส่ Content-Type: application/json — จะโดน CORS preflight ที่ GAS ไม่รองรับ
+        const r = await fetch(GAS_URL, { method:'POST', body:JSON.stringify({ action:'record', record:rec }), signal:ctrl.signal });
+        if(!r.ok) throw new Error(`เซิร์ฟเวอร์ขัดข้อง (HTTP ${r.status})`);
+        // ได้ HTML แทน JSON = มักตั้ง Deploy ไม่เป็น "Anyone"
+        try{ res = await r.json(); }catch(_){ throw new Error('เซิร์ฟเวอร์ตอบกลับไม่ถูกต้อง'); }
+      } finally { clearTimeout(timer); }
+      if(!res || !res.ok) throw new Error((res && res.error) || 'เซิร์ฟเวอร์ตอบกลับไม่ถูกต้อง');
+      state.queue.shift();
+      state.lastSyncAt = new Date().toISOString(); state.lastSyncError = null;
+      save();
+    }
+    if(manual) toast('ส่งผลการอบรมเรียบร้อย');
+  }catch(e){
+    console.error('[sync] ส่งไม่สำเร็จ', e);
+    state.lastSyncError = e.name === 'AbortError' ? 'หมดเวลาเชื่อมต่อ'
+      : e instanceof TypeError ? 'เชื่อมต่ออินเทอร์เน็ตไม่ได้' : String(e.message || e);
+    save();
+    if(manual) toast('ส่งไม่สำเร็จ: ' + state.lastSyncError);
+  }finally{
+    flushing = false;
+    refreshSyncStatus();
+  }
+}
+// วาดสถานะการส่งใหม่ — ไม่วาดทับฟอร์มลงชื่อ (กันข้อความที่กำลังพิมพ์หาย)
+function refreshSyncStatus(){
+  if(!$('view-home').hidden && state.profile) renderHome();
+  else if(!$('view-done').hidden) route();
+}
+
+function bindReader(){
+  $('r-back').addEventListener('click', () => { location.hash = '#/'; });
+  $('r-prev').addEventListener('click', () => goPage(-1));
+  $('r-next').addEventListener('click', () => goPage(1));
+  $('r-finish').addEventListener('click', finishCourse);
+  $('r-zoom').addEventListener('click', () => { reader.zoom = !reader.zoom; reader.lastActive = Date.now(); renderReader(); });
+  // รูปขึ้นจริงแล้วค่อยเริ่มนับถอยหลัง 5 วิ (นับใน readerTick)
+  $('r-img').addEventListener('load', () => {
+    if(!$('r-img').getAttribute('src')) return;
+    $('r-stage').classList.remove('loading');
+    if(reader.code){ reader.loaded = true; reader.failed = false; renderReader(); }
+  });
+  $('r-img').addEventListener('error', () => {
+    if(!$('r-img').getAttribute('src') || !reader.code) return;
+    $('r-stage').classList.remove('loading');
+    reader.failed = true; renderReader();
+  });
+  // ลองโหลดรูปหน้าเดิมใหม่ (BUG-02)
+  $('r-retry-btn').addEventListener('click', () => { reader.failed = false; $('r-img').removeAttribute('src'); renderReader(); });
+  // โหมดเต็มจอ (BUG-07)
+  $('r-full').addEventListener('click', openFull);
+  $('fs-close').addEventListener('click', () => { closeFull(); renderReader(); });
+  $('fs-prev').addEventListener('click', () => goPage(-1));
+  $('fs-next').addEventListener('click', () => {
+    const c = findCourse(reader.code);
+    if(c && reader.page === c.pages){ closeFull(); renderReader(); } else goPage(1);
+  });
+  window.addEventListener('resize', () => { if(reader.full) layoutFull(); });
+  document.addEventListener('visibilitychange', () => { if(document.visibilityState === 'visible') reader.lastActive = Date.now(); });
+  document.addEventListener('pointerdown', () => { reader.lastActive = Date.now(); }, { passive:true });
+  // ปัดซ้าย/ขวาเปลี่ยนหน้า (ปิดเมื่ออยู่โหมดขยาย)
+  const stage = $('r-stage');
+  stage.addEventListener('touchstart', e => { if(e.touches.length === 1 && !reader.zoom) reader.startTouch = { x:e.touches[0].clientX, y:e.touches[0].clientY }; else reader.startTouch = null; }, { passive:true });
+  stage.addEventListener('touchend', e => {
+    const s = reader.startTouch; reader.startTouch = null;
+    if(!s || reader.zoom) return;
+    const dx = e.changedTouches[0].clientX - s.x, dy = e.changedTouches[0].clientY - s.y;
+    if(Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) goPage(dx < 0 ? 1 : -1);
+  });
+  stage.addEventListener('dblclick', () => { reader.zoom = !reader.zoom; renderReader(); });
+  document.addEventListener('keydown', e => {
+    if($('view-read').hidden) return;
+    if(e.key === 'ArrowRight') goPage(1);
+    else if(e.key === 'ArrowLeft') goPage(-1);
+    else if(e.key === 'Escape'){ if(reader.full){ closeFull(); renderReader(); } else location.hash = '#/'; }
+  });
+}
+
+// router: #/ หน้าแรก · #/read/<code> อ่าน · #/done/<ref> ผลการอบรม
+function route(){
+  const h = location.hash.replace(/^#\/?/, '');
+  const [page, arg] = h.split('/');
+  if(page === 'read' && arg){
+    if(reader.code === arg && !$('view-read').hidden){ renderReader(); return; }
+    openReader(decodeURIComponent(arg)); return;
+  }
+  stopReader(); // ออกจากหน้าอ่าน: หยุดนับเวลา + บันทึก
+  reader.code = null;
+  if(page === 'done' && arg){ showView('view-done'); renderDone(decodeURIComponent(arg)); return; }
+  showView('view-home'); renderHome();
+}
+
+// ===== 7. INIT + TEST SUITE (?test=1) =====
+const tests = [];
+function test(name, fn){ tests.push({ name, fn }); }
+function assertEq(a, b, msg){ if(JSON.stringify(a) !== JSON.stringify(b)) throw new Error(msg || `${JSON.stringify(a)} != ${JSON.stringify(b)}`); }
+
+test('เบอร์โทรมีขีด แปลงเหลือตัวเลข', () => assertEq(validatePhone('081-234-5678').value, '0812345678'));
+test('เบอร์โทรสั้นเกิน ไม่ผ่าน', () => assertEq(validatePhone('1234').ok, false));
+test('ฟอร์มครบ ผ่าน + ตัดช่องว่างซ้ำ', () => {
+  const r = validateProfile({ name:'  สมชาย   ใจดี ', company:'หจก. ทดสอบ', phone:'0812345678', consent:true });
+  assertEq(r.ok, true); assertEq(r.profile, { name:'สมชาย ใจดี', company:'หจก. ทดสอบ', phone:'0812345678' });
+});
+test('ไม่ติ๊กยินยอม ไม่ผ่าน', () => assertEq(Object.keys(validateProfile({ name:'สมชาย ใจดี', company:'หจก. ทดสอบ', phone:'0812345678', consent:false }).errors), ['consent']));
+test('ฟอร์มว่างทั้งหมด แจ้ง error ครบ 4 ช่อง', () => assertEq(Object.keys(validateProfile({}).errors).length, 4));
+test('progress นับหน้าไม่ซ้ำ และตัดเลขหน้านอกช่วง', () => assertEq(progressInfo([1,2,2,0,99,3], 3), { count:3, total:3, pct:1, complete:true }));
+test('progress ไม่มีข้อมูล = 0', () => assertEq(progressInfo(undefined, 70).count, 0));
+test('progress total = 0 ไม่หารศูนย์', () => assertEq(progressInfo([1], 0).complete, false));
+test('หน้าแรกที่ยังไม่อ่าน', () => assertEq(firstUnviewed([1,2,4], 5), 3));
+test('อ่านครบแล้ว firstUnviewed = null', () => assertEq(firstUnviewed([1,2,3], 3), null));
+test('รหัสอ้างอิงรูปแบบ TR-ปีเดือนวัน', () => assertEq(makeRef(new Date(2026,9,7), 'ABCDE'), 'TR-261007-ABCDE'));
+test('randomCode ยาวตามสั่งและไม่มี 0/O/1/I', () => { const s = randomCode(50); assertEq(s.length, 50); assertEq(/[0O1I]/.test(s), false); });
+test('นาทีที่อ่าน ปัดทศนิยม 1 ตำแหน่ง', () => assertEq(minutesBetween('2026-10-07T08:00:00Z', '2026-10-07T08:12:30Z'), 12.5));
+test('นาทีที่อ่าน เวลาสลับลำดับ = 0', () => assertEq(minutesBetween('2026-10-07T09:00:00Z', '2026-10-07T08:00:00Z'), 0));
+test('buildRecord ใส่ข้อมูลครบ', () => {
+  const r = buildRecord({ name:'ก', company:'ข', phone:'0812345678', consentAt:'c' }, findCourse('sdsf00'), { viewed:[1,2,3], startedAt:'2026-10-07T08:00:00Z' }, '2026-10-07T08:03:00Z', 'TR-1');
+  assertEq([r.courseCode, r.pagesViewed, r.pagesTotal, r.durationMin, r.ref, 'idNo' in r], ['sdsf00', 3, 3, 3, 'TR-1', false]);
+});
+test('migrate ข้อมูลเสีย/ว่าง ได้ค่าเริ่มต้น', () => assertEq(migrate(null).queue, []));
+test('migrate เติม field ที่ขาด โดยไม่ทับของเดิม', () => { const m = migrate({ profile:{ name:'ก' }, queue:'x' }); assertEq([m.profile.name, m.queue, m.version], ['ก', [], 3]); });
+test('migrate v3 ลบ progress ที่เสีย และเติม viewed ที่หาย', () => {
+  const m = migrate({ version:2, progress:{ a:null, b:{ startedAt:'x' }, c:{ viewed:[1,2] } } });
+  assertEq(m.progress, { b:{ startedAt:'x', viewed:[] }, c:{ viewed:[1,2] } });
+});
+test('เบอร์ไม่ขึ้นต้น 0 ไม่ผ่าน (BUG-06)', () => assertEq(validatePhone('123456789').ok, false));
+test('เบอร์มีตัวอักษร บอกให้กรอกตัวเลข (BUG-05)', () => assertEq(validatePhone('abcdefg').msg, 'กรอกเฉพาะตัวเลข เช่น 081-234-5678'));
+test('เบอร์ +66 แปลงเป็น 0', () => assertEq(validatePhone('+66 81 234 5678').value, '0812345678'));
+test('เบอร์บ้าน 9 หลักผ่าน', () => assertEq(validatePhone('02-123-4567').value, '021234567'));
+test('เบอร์ 11 หลัก ไม่ผ่าน', () => assertEq(validatePhone('08123456789').ok, false));
+test('ชื่อสั้นเกิน บอกว่าสั้น ไม่ใช่ "กรุณากรอก" (BUG-05)', () => assertEq(validateProfile({ name:'ก', company:'หจก. ทดสอบ', phone:'0812345678', consent:true }).errors.name, 'ชื่อสั้นเกินไป กรุณากรอกทั้งชื่อและนามสกุล'));
+test('formatDuration วินาที/นาที (BUG-10)', () => assertEq([formatDuration(12), formatDuration(125), formatDuration(120), formatDuration(-1), formatDuration(NaN)], ['12 วินาที', '2 นาที 5 วินาที', '2 นาที', '-', '-']));
+test('canGoNext ต้องอ่านหน้านี้แล้ว และไม่ใช่หน้าสุดท้าย (BUG-08)', () => assertEq([canGoNext([1],1,3), canGoNext([],1,3), canGoNext([3],3,3), canGoNext(undefined,1,3)], [true, false, false, false]));
+test('เวลาอ่านใช้ activeMs ไม่ใช่เวลาเปิด→ยืนยัน (BUG-09)', () => {
+  const r = buildRecord({ name:'ก', company:'ข', phone:'0812345678' }, findCourse('sdsf00'), { viewed:[1,2,3], startedAt:'2026-10-01T08:00:00Z', activeMs:90400 }, '2026-10-07T08:00:00Z', 'TR-2');
+  assertEq([r.durationSec, r.durationMin], [90, 1.5]);
+});
+test('ข้อมูลเก่าไม่มี activeMs ใช้เวลาเปิด→ยืนยันแทน', () => assertEq(readingSeconds({ startedAt:'2026-10-07T08:00:00Z' }, '2026-10-07T08:02:00Z'), 120));
+test('migrate v2 ลบเลขบัตรที่เคยเก็บ ทั้ง profile/ผล/คิว แต่ผลยังอยู่ครบ', () => {
+  const m = migrate({ version:1, profile:{ name:'ก', idNo:'X' }, completions:[{ ref:'TR-1', idNo:'X' }], queue:[{ ref:'TR-1', idNo:'X' }] });
+  assertEq([m.profile, m.completions, m.queue], [{ name:'ก' }, [{ ref:'TR-1' }], [{ ref:'TR-1' }]]);
+});
+test('latestCompletion เลือกอันล่าสุด', () => assertEq(latestCompletion([{ courseCode:'a', finishedAt:'2026-01-01' }, { courseCode:'a', finishedAt:'2026-02-01' }, { courseCode:'b', finishedAt:'2026-03-01' }], 'a').finishedAt, '2026-02-01'));
+test('escapeHtml กัน HTML injection จากชื่อ', () => assertEq(escapeHtml('<b>"x"</b>'), '&lt;b&gt;&quot;x&quot;&lt;/b&gt;'));
+test('COURSES รหัสไม่ซ้ำ และจำนวนหน้า > 0', () => { assertEq(new Set(COURSES.map(c => c.code)).size, COURSES.length); assertEq(COURSES.every(c => c.pages > 0), true); });
+
+function runTests(){
+  let pass = 0; const lines = [];
+  for(const t of tests){
+    try{ t.fn(); pass++; lines.push('✓ ' + t.name); }
+    catch(e){ lines.push('✗ ' + t.name + ' — ' + e.message); }
+  }
+  const summary = `ผ่าน ${pass}/${tests.length}`;
+  console.log('[test]', summary); lines.forEach(l => console.log(l));
+  showView('view-test'); $('test-out').textContent = summary + '\n\n' + lines.join('\n');
+  return { pass, total:tests.length };
+}
+
+function init(){
+  load();
+  if(new URLSearchParams(location.search).get('test')){ runTests(); return; }
+  bindReader();
+  window.addEventListener('hashchange', route);
+  window.addEventListener('online', () => flushQueue(false));
+  route();
+  flushQueue(false); // ส่งของค้างจากครั้งก่อน
+}
+init();
+</script>
+</body>
+</html>
