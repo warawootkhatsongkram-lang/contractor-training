@@ -50,10 +50,9 @@
 - ทดสอบ sync ด้วย mock GAS: ส่งล้ม → คิวคงอยู่ + ข้อความไทย / ส่งสำเร็จ → คิวว่าง / กดรัว 3 ครั้ง → ส่งจริง 1 ครั้ง / request เป็น text/plain ไม่มี preflight
 - dev-loop 3/3 LOOP (`_devloop/index-log.md`): พบ 15 BUG แก้ครบ 15 (ปิด✅ 14, BUG-15 Dev ตรวจแล้วรอ User) · test suite 32/32 · localStorage schema v3 · backup `_backup/index_2026-10-07_a|b|c.html`
 - DEBUG PANEL `?debug=1` (สถานะตัวนับ/เวลาอ่าน) — คงไว้จนเดย์สั่งเอาออก
-- git init + stage แล้ว (ยังไม่ commit — รอตั้งอีเมล noreply หลัง login GitHub) · `_backup/` `_devloop/` อยู่ใน .gitignore
+- ขึ้น GitHub แล้ว (2026-10-07): repo public https://github.com/warawootkhatsongkram-lang/contractor-training · GitHub Pages https://warawootkhatsongkram-lang.github.io/contractor-training/ · QR บน qr.html ถอดรหัสได้ URL จริง · test suite บนเว็บจริง 32/32 · commit ด้วยอีเมล noreply (ตั้งเฉพาะ repo) · `_backup/` `_devloop/` ไม่ขึ้น repo
 
 ## กำลังทำ + ค้าง
-- รอเดย์ `! gh auth login` → commit (อีเมล noreply) → สร้าง repo `contractor-training` public → เปิด Pages → ตรวจ qr.html บน URL จริง
 - รอเดย์ติดตั้ง GAS ตาม `gas/วิธีติดตั้ง-GAS.md` แล้วใส่ URL ใน `GAS_URL` ของ index.html (ยังไม่ได้ทดสอบกับ GAS จริง)
 
 ## การตัดสินใจสำคัญ (อะไร + เพราะอะไร)
@@ -73,7 +72,7 @@
 - commit ด้วยอีเมล noreply ของ GitHub (ตั้งเฉพาะ repo) — กันอีเมลจริงโผล่ใน repo public
 
 ## step ถัดไป
-1. เดย์พิมพ์ `! gh auth login` (GitHub.com → HTTPS → Login with a web browser)
-2. ตั้ง user.name/email (noreply) เฉพาะ repo → commit → `gh repo create contractor-training --public --source . --push` → เปิด Pages (branch main, root)
-3. เปิด `https://<บัญชี>.github.io/contractor-training/qr.html` ตรวจ QR + ทดสอบบนมือถือจริง
-4. เดย์ติดตั้ง GAS → ใส่ `GAS_URL` → push → ทดสอบส่งผลจริง 1 รายการ แล้วดูแถวใน Sheet
+1. เดย์เปิด https://warawootkhatsongkram-lang.github.io/contractor-training/qr.html → พิมพ์โปสเตอร์ A4 → สแกนด้วยมือถือจริง (ทดสอบปัดหน้า / เต็มจอ / ตัวนับ 5 วิ บน Safari, Chrome, LINE)
+2. เดย์ติดตั้ง GAS ตาม `gas/วิธีติดตั้ง-GAS.md` → ส่ง URL /exec ให้ Claude ใส่ `GAS_URL` → push → ทดสอบส่งผลจริง 1 รายการ แล้วดูแถวใน Sheet
+3. แก้ไฟล์แล้ว push ใหม่: `git add -A && git commit -m "..." && git push` (Pages อัปเดตเองภายใน ~1 นาที)
+- หมายเหตุ: localStorage ของ *.github.io ใช้ร่วมกับระบบอื่นของเดย์ในบัญชีเดียวกัน (fireguard, hamer_waste) — ระบบนี้ใช้ key `hamer_training_v1` ไม่ชนกัน
