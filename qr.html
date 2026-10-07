@@ -34,31 +34,41 @@ body{background:#1E293B;color:var(--text);font-family:'Sarabun',system-ui,sans-s
 .poster .scrim{position:absolute;inset:0;background:radial-gradient(ellipse 70% 45% at 50% 52%,rgba(11,18,32,.82) 0%,rgba(11,18,32,.35) 70%,rgba(11,18,32,0) 100%),linear-gradient(180deg,rgba(11,18,32,.75) 0%,rgba(11,18,32,.2) 30%,rgba(11,18,32,.2) 70%,rgba(11,18,32,.85) 100%)}
 .haz{position:absolute;left:0;right:0;height:2.2cqw;background:repeating-linear-gradient(-45deg,var(--yellow) 0 2.2cqw,#111827 2.2cqw 4.4cqw)}
 .haz.top{top:0}.haz.bot{bottom:0}
-.content{position:absolute;inset:2.2cqw 0;display:flex;flex-direction:column;align-items:center;padding:4.5cqw 7cqw 3cqw;text-align:center}
+.content{position:absolute;inset:2.2cqw 0;display:flex;flex-direction:column;align-items:center;padding:3.5cqw 7cqw 2.5cqw;text-align:center}
 .head{width:100%;display:flex;align-items:center;justify-content:space-between}
 .brand{display:flex;align-items:center;gap:1.6cqw;background:#fff;border-radius:1.8cqw;padding:1cqw 1.8cqw}
 .brand img{height:6.2cqw;width:auto;display:block}
 .brand .sep{width:1px;height:5cqw;background:#E2E8F0}
 .dept{text-align:right;font-size:1.9cqw;line-height:1.35;color:var(--text-2)}
 .dept b{display:block;font-family:'Prompt',sans-serif;font-weight:600;font-size:2.2cqw;color:var(--text)}
-.eyebrow{margin-top:3cqw;display:inline-block;font-family:'Prompt',sans-serif;font-weight:600;letter-spacing:.12em;font-size:2cqw;color:var(--yellow);border:.25cqw solid rgba(250,204,21,.6);border-radius:99cqw;padding:.6cqw 2.6cqw;background:rgba(250,204,21,.08)}
-h1{font-family:'Prompt',sans-serif;font-weight:800;font-size:7.4cqw;line-height:1.18;margin:2cqw 0 0;text-shadow:0 .6cqw 2cqw rgba(0,0,0,.5)}
+.eyebrow{margin-top:2.4cqw;display:inline-block;font-family:'Prompt',sans-serif;font-weight:600;letter-spacing:.12em;font-size:2cqw;color:var(--yellow);border:.25cqw solid rgba(250,204,21,.6);border-radius:99cqw;padding:.6cqw 2.6cqw;background:rgba(250,204,21,.08)}
+h1{font-family:'Prompt',sans-serif;font-weight:800;font-size:6.8cqw;line-height:1.18;margin:1.6cqw 0 0;text-shadow:0 .6cqw 2cqw rgba(0,0,0,.5)}
 h1 span{color:var(--orange-hi)}
-.lead{font-size:2.7cqw;color:var(--text-2);margin:1.4cqw 0 0}
-.qr-box{position:relative;margin-top:3cqw;width:46cqw;padding:3cqw;background:#fff;border-radius:3cqw;box-shadow:0 1.5cqw 5cqw rgba(0,0,0,.55),0 0 0 .8cqw rgba(234,88,12,.9)}
+.lead{font-size:2.7cqw;color:var(--text-2);margin:1cqw 0 0}
+.qr-box{position:relative;margin-top:2.4cqw;width:39cqw;padding:3cqw;background:#fff;border-radius:3cqw;box-shadow:0 1.5cqw 5cqw rgba(0,0,0,.55),0 0 0 .8cqw rgba(234,88,12,.9)}
 .qr-box .qr img,.qr-box .qr canvas{width:100%!important;height:auto!important;display:block}
-.qr-box .logo{position:absolute;left:50%;top:50%;width:11cqw;height:11cqw;transform:translate(-50%,-50%);background:#fff;border-radius:2cqw;padding:.9cqw;display:grid;place-items:center}
+.qr-box .logo{position:absolute;left:50%;top:50%;width:9.5cqw;height:9.5cqw;transform:translate(-50%,-50%);background:#fff;border-radius:2cqw;padding:.9cqw;display:grid;place-items:center}
 .qr-box .logo img{width:100%;height:100%;object-fit:contain}
-.scan{margin-top:2.8cqw;display:inline-flex;align-items:center;gap:1.4cqw;font-family:'Prompt',sans-serif;font-weight:700;font-size:3.8cqw;color:#111827;background:var(--yellow);border-radius:1.6cqw;padding:1cqw 3cqw}
+.scan{margin-top:1.8cqw;display:inline-flex;align-items:center;gap:1.4cqw;font-family:'Prompt',sans-serif;font-weight:700;font-size:3.8cqw;color:#111827;background:var(--yellow);border-radius:1.6cqw;padding:1cqw 3cqw}
 .scan svg{width:4.4cqw;height:4.4cqw}
-.steps{margin-top:2.8cqw;width:100%;display:grid;grid-template-columns:repeat(3,1fr);gap:2cqw}
-.st{background:rgba(15,23,42,.82);border:.2cqw solid var(--line);border-radius:2cqw;padding:2cqw 1.4cqw;display:flex;flex-direction:column;align-items:center;gap:.8cqw}
+.steps{margin-top:2.2cqw;width:100%;display:grid;grid-template-columns:repeat(3,1fr);gap:2cqw}
+.st{background:rgba(15,23,42,.82);border:.2cqw solid var(--line);border-radius:2cqw;padding:1.3cqw 1.2cqw;display:flex;flex-direction:column;align-items:center;gap:.5cqw}
 .st i{font-style:normal;width:5cqw;height:5cqw;border-radius:50%;display:grid;place-items:center;background:var(--orange);color:#111827;font-family:'Prompt',sans-serif;font-weight:700;font-size:2.6cqw}
 .st b{font-family:'Prompt',sans-serif;font-weight:600;font-size:2.4cqw}
 .st span{font-size:1.9cqw;color:var(--muted);line-height:1.35}
-.courses{margin-top:2.6cqw;display:flex;flex-wrap:wrap;justify-content:center;gap:1.2cqw}
+.courses{margin-top:2cqw;display:flex;flex-wrap:wrap;justify-content:center;gap:1.2cqw}
 .chip{display:inline-flex;align-items:center;gap:.9cqw;font-size:2.1cqw;font-weight:600;padding:.7cqw 1.8cqw;border-radius:99cqw;background:rgba(15,23,42,.85);border:.2cqw solid var(--line)}
 .chip i{width:1.6cqw;height:1.6cqw;border-radius:50%}
+/* กล่องติดต่อ จป. */
+.contact{margin-top:2cqw;width:100%;background:rgba(15,23,42,.88);border:.25cqw solid rgba(250,204,21,.55);border-radius:2cqw;padding:1.2cqw 2cqw}
+.contact .top{display:flex;align-items:baseline;justify-content:space-between;gap:2cqw;margin-bottom:1cqw}
+.contact h3{margin:0;font-family:'Prompt',sans-serif;font-weight:700;font-size:2.4cqw;color:var(--yellow)}
+.contact .people{display:grid;grid-template-columns:1fr 1fr;gap:1.6cqw}
+.contact .p{display:flex;align-items:center;gap:1.2cqw;text-align:left}
+.contact .p svg{flex:none;width:4.6cqw;height:4.6cqw;padding:1cqw;border-radius:50%;background:var(--orange);color:#111827}
+.contact .p b{display:block;font-family:'Prompt',sans-serif;font-weight:700;font-size:2.9cqw;letter-spacing:.02em;color:#fff;line-height:1.2}
+.contact .p span{display:block;font-size:1.9cqw;color:var(--text-2);line-height:1.3}
+.contact .admin{font-size:1.9cqw;color:var(--text-2)}
 .foot{margin-top:auto;font-size:1.8cqw;color:var(--muted)}
 .foot .u{display:block;color:var(--text-2);font-size:1.7cqw;overflow-wrap:anywhere;margin-top:.4cqw}
 
@@ -151,6 +161,13 @@ h1 span{color:var(--orange-hi)}
         <span class="chip"><i style="background:#EF4444"></i>งานก่อประกายไฟ</span>
         <span class="chip"><i style="background:#FACC15"></i>งานที่สูง</span>
         <span class="chip"><i style="background:#22D3EE"></i>งานที่อับอากาศ</span>
+      </div>
+      <div class="contact">
+        <div class="top"><h3>หากสงสัย ติดต่อ</h3><div class="admin">ผู้ดูแลระบบ: คุณวัชราภรณ์</div></div>
+        <div class="people">
+          <div class="p"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg><div><b>088-6927-895</b><span>คุณปอร์ · จป.วิชาชีพ</span></div></div>
+          <div class="p"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg><div><b>095-4980-839</b><span>คุณฟ้า · จป.วิชาชีพ</span></div></div>
+        </div>
       </div>
       <div class="foot">ฝ่ายความปลอดภัย · บริษัท ชูศิลป์ กรุ๊ป เทรดดิ้ง จำกัด<span class="u" id="url-foot"></span></div>
     </div>
